@@ -16,7 +16,6 @@ RUN echo root:root |chpasswd \
     && . ~/.profile;\
         if [ $? -eq 0 ]; \
             then sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config; \
-            echo 'xxx';
         else \
             echo "PermitRootLogin yes"  >> /etc/ssh/sshd_config;\
         fi \
