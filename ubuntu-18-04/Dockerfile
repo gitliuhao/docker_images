@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
 RUN apt-get install -y ssh lsof vim iproute2
 # Install any needed packages specified in requirements.txt
-RUN echo "root:root"|chpasswd \
+RUN echo root:root |chpasswd \
     && sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config \
     && sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config \
     && ssh-keygen -t RSA -N '' -f ~/.ssh/id_rsa \
