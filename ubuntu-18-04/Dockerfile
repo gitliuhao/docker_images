@@ -1,12 +1,14 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y python3.6 python3-pip
+
+RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
+RUN apt-get install ssh lsof vim iproute
 # Install any needed packages specified in requirements.txt
-#RUN echo "root:root"|chpasswd \
-#    && sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config \
-#    && sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config \
-#    && ssh-keygen -t RSA -N '' -f ~/.ssh/id_rsa \
-#    && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+RUN echo "root:root"|chpasswd \
+    && sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config \
+    && sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config \
+    && ssh-keygen -t RSA -N '' -f ~/.ssh/id_rsa \
+    && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 # python环境依赖包
 # RUN apt-get -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel \
@@ -28,5 +30,5 @@ ENV LANG en_US.utf8
 
 
 #
-CMD ["/usr/sbin/init"]
+CMD ["/usr/sbin/sshd"]
 #CMD ["mkdir", "aabb"]
