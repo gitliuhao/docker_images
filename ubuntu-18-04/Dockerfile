@@ -23,7 +23,7 @@ RUN mkdir ~/.pip && \
 
 
 # 系统编码设置utf8
-
+RUN mkdir /var/run/sshd
 #RUN export LC_ALL=en_US.utf8 && export LANG=en_US.utf8
 RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
 ENV LANG en_US.utf8
