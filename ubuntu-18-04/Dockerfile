@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 
 RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
-RUN apt-get install ssh lsof vim iproute -y
+RUN apt-get install -y ssh lsof vim iproute2
 # Install any needed packages specified in requirements.txt
 RUN echo "root:root"|chpasswd \
     && sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config \
@@ -30,5 +30,5 @@ ENV LANG en_US.utf8
 
 
 #
-CMD ["/usr/sbin/sshd"]
+CMD ["/usr/sbin/sshd", "-D"]
 #CMD ["mkdir", "aabb"]
