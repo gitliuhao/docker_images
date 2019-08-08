@@ -5,18 +5,21 @@ RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
 RUN apt-get install -y ssh lsof vim iproute2
 # Install any needed packages specified in requirements.txt
 RUN echo root:root |chpasswd \
-    && grep '#PubkeyAuthentication' /etc/ssh/sshd_config \
-    && if [ $? -eq 0 ]; \
-        then sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config;\
-       else \
-        echo "PubkeyAuthentication yes"  >> /etc/ssh/sshd_config; \
-       fi \
-    && grep '#PermitRootLogin' /etc/ssh/sshd_config \
-    && if [ $? -eq 0 ]; \
-        then sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config;\
-   else \
-    echo "PermitRootLogin yes"  >> /etc/ssh/sshd_config; \
-   fi \
+    && grep '#PubkeyAuthentication yes' /etc/ssh/sshd_config \
+    && . ~/.profile;\
+        if [ $? -eq 0 ]; \
+            then sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config;\
+        else \
+            echo "PubkeyAuthentication yes"  >> /etc/ssh/sshd_config; \
+        fi \
+    && grep '#PermitRootLogin yes' /etc/ssh/sshd_config \
+    && . ~/.profile;\
+        if [ $? -eq 0 ]; \
+            then sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config; \
+            echo 'xxx';
+        else \
+            echo "PermitRootLogin yes"  >> /etc/ssh/sshd_config;\
+        fi \
     && ssh-keygen -t RSA -N '' -f ~/.ssh/id_rsa \
     && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
