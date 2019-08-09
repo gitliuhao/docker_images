@@ -44,6 +44,8 @@ RUN mkdir /var/run/sshd
 #RUN export LC_ALL=en_US.utf8 && export LANG=en_US.utf8
 #RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
 #ENV LANG en_US.utf8
+
+RUN sed -i '$a export LANG=C.UTF-8' /etc/profile
 ENV LANG C.UTF-8
 
 #
