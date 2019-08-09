@@ -2,7 +2,9 @@ FROM ubuntu:18.04
 
 
 RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
-RUN apt-get install -y ssh lsof vim iproute2
+# python 依赖包
+RUN apt-get install -y libxml2-dev libxslt1-dev python-dev python3-dev zlib1g-dev libevent-dev
+RUN apt-get install -y ssh lsof vim iproute2 language-pack-zh*
 # Install any needed packages specified in requirements.txt
 RUN echo root:root |chpasswd \
     && grep '#PubkeyAuthentication yes' /etc/ssh/sshd_config \
