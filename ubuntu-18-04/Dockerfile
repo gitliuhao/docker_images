@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
 # python 依赖包
 RUN apt-get install -y libxml2-dev libxslt1-dev python-dev python3-dev zlib1g-dev libevent-dev
-RUN apt-get install -y ssh lsof vim iproute2 language-pack-zh*
+RUN apt-get install -y ssh lsof vim iproute2
 # Install any needed packages specified in requirements.txt
 RUN echo root:root |chpasswd \
     && grep '#PubkeyAuthentication yes' /etc/ssh/sshd_config \
@@ -42,9 +42,9 @@ COPY pip.conf /root/.pip/pip.conf
 # 系统编码设置utf8
 RUN mkdir /var/run/sshd
 #RUN export LC_ALL=en_US.utf8 && export LANG=en_US.utf8
-RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
-ENV LANG en_US.utf8
-
+#RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
+#ENV LANG en_US.utf8
+ENV LANG C.UTF-8
 
 #
 CMD ["/usr/sbin/sshd", "-D"]
