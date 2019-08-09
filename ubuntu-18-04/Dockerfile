@@ -29,7 +29,7 @@ RUN echo root:root |chpasswd \
 #    mysql-devel gcc gcc-devel python-devel
 # 安装python
 # pip换源
-RUN mkdir ~/.pip && \
+RUN mkdir -p ~/.pip && \
     echo -e "[global]" \
             "\ntimeout = 6000" \
             "\nindex-url = https://mirrors.aliyun.com/pypi/simple/" \
