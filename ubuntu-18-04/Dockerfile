@@ -30,10 +30,11 @@ RUN echo root:root |chpasswd \
 # 安装python
 # pip换源
 RUN mkdir -p ~/.pip && \
-    echo -e "[global]" \
-            "\ntimeout = 6000" \
-            "\nindex-url = https://mirrors.aliyun.com/pypi/simple/" \
-            "\ntrusted-host = pypi.tuna.tsinghua.edu.cn" > ~/.pip/pip.conf
+    echo -e \
+    "[global]" \
+    "\ntimeout = 6000" \
+    "\nindex-url = https://mirrors.aliyun.com/pypi/simple/" \
+    "\ntrusted-host = pypi.tuna.tsinghua.edu.cn" > ~/.pip/pip.conf
 
 
 # 系统编码设置utf8
