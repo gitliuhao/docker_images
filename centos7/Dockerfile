@@ -1,19 +1,25 @@
 FROM centos:7
-# yum 换源
-RUN yum -y install epel-release && yum clean all && yum makecache
-#RUN yum -y  update
+# 换源
+RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo \
+    && sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo \
+    && yum clean all; yum makecache
+
 RUN yum -y  install gcc automake autoconf libtool make java-1.8.0-openjdk wget gcc-c++ zlib* \
-    openssh-server openssh-clients passwd chkconfig lsof vim iproute
-# Install any needed packages specified in requirements.txt
-RUN echo "root:root"|chpasswd \
-    && sed -i "s/#PubkeyAuthentication yes/PubkeyAuthentication yes/g"  /etc/ssh/sshd_config \
-    && sed -i "s/#PermitRootLogin yes/PermitRootLogin yes/g"  /etc/ssh/sshd_config \
-    && ssh-keygen -t RSA -N '' -f ~/.ssh/id_rsa \
-    && cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+    openssh-clients passwd chkconfig lsof vim iproute
+# 安装openssh-server
+RUN yum -y install openssh-server
+
+RUN mkdir /var/run/sshd
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+# 指定root密码
+RUN /bin/echo 'root:root'|chpasswd
+RUN /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd
 
 # python环境依赖包
-RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel \
-    mysql-devel gcc gcc-devel python-devel
+RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
+
 # 安装python
 RUN wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz \
     && tar xJf Python-3.6.8.tar.xz \
@@ -29,20 +35,13 @@ RUN mkdir ~/.pip && \
             "\ntrusted-host = pypi.tuna.tsinghua.edu.cn" > ~/.pip/pip.conf
 
 
-# 系统编码设置utf8
-
-#RUN export LC_ALL=en_US.utf8 && export LANG=en_US.utf8
-RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
-ENV LANG en_US.utf8
-
-
-# 安装python环境
-COPY requirements.txt /root/requirements.txt
-RUN pip3 install -r /root/requirements.txt
 
 #下载Jenkins
 RUN wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war -P ~
 
-#
-CMD ["/usr/sbin/init"]
-#CMD ["mkdir", "aabb"]
+
+# 系统编码设置utf8
+RUN sed -i '$a export LANG=en_US.utf8' /etc/profile
+ENV LANG en_US.utf8
+EXPOSE 22
+CMD /usr/sbin/sshd -D
