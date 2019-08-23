@@ -2,7 +2,7 @@
 #docker-machine ssh default "sudo mkdir /sys/fs/cgroup/systemd"
 #docker-machine ssh default "sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd"
 #docker-machine ssh default "docker network create --driver bridge --subnet=10.10.10.0/24 --gateway=10.10.10.1 mynet"
-docker network create --driver bridge --subnet=10.10.10.0/255 --gateway=10.10.10.1 mynet
+docker network create --driver bridge --subnet=10.10.10.0/24 --gateway=10.10.10.1 mynet
 
 
 #docker run --privileged --name=myredis --restart=always -d \
@@ -25,7 +25,7 @@ docker run --privileged --name=test1 --restart=always -d \
     --network=mynet --ip 10.10.10.10 \
     -v /d/HashiCorp:/d/HashiCorp \
     -v /d/HashiCorp/root/.jenkins/:/root/.jenkins/ \
-    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/test:latest
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
 
 docker run --privileged --name=ubuntu --restart=always -d \
     --network=mynet --ip 10.10.10.09 \
@@ -65,11 +65,13 @@ docker run --privileged --name=jenkins_1 --restart=always -d \
     registry.cn-hangzhou.aliyuncs.com/lch_docker_k/test:latest
 
 
-docker run --privileged --name=jenkins_2 --restart=always -d \
-    --network=mynet --ip 10.10.10.2 \
+docker run --privileged --name=jenkins_2 -it \
+    --network=mynet --ip 10.10.10.2  --rm=true\
     -u root \
+    -p 8082:8080 \
     -v $workpace/root/.jenkins_2/:/root/.jenkins/ \
-    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/test:latest
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/test:latest \
+    java -jar /root/jenkins.war
 
 docker run --privileged --name=jenkins_3 --restart=always -d \
     --network=mynet --ip 10.10.10.3 \
@@ -78,6 +80,7 @@ docker run --privileged --name=jenkins_3 --restart=always -d \
     -p 8083:8080 \
     -v $workpace/root/.jenkins_3/:/root/.jenkins/ \
     registry.cn-hangzhou.aliyuncs.com/lch_docker_k/test:latest
+
 
 #mysql允许远程连接
 #docker-machine ssh default \

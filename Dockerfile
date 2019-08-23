@@ -17,7 +17,7 @@ RUN yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-dev
 # 安装python
 RUN wget https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz \
     && tar xJf Python-3.6.8.tar.xz \
-    && /Python-3.6.8/configure --prefix=/usr/local/python3 \
+    && Python-3.6.8/configure --prefix=/usr/local/python3 \
     && make && make install \
     && ln -s /usr/local/python3/bin/python3 /usr/bin/python3 && ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
 
