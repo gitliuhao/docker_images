@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 
-RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip
+RUN apt-get update && apt-get install -y python3.6 python3-pip python python-pip lrzsz
 # python 依赖包
 RUN apt-get install -y libxml2-dev libxslt1-dev python-dev python3-dev zlib1g-dev libevent-dev
 RUN apt-get install -y ssh lsof vim iproute2

@@ -5,7 +5,7 @@ RUN wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Cen
     && yum clean all; yum makecache
 
 RUN yum -y  install gcc automake autoconf libtool make java-1.8.0-openjdk wget gcc-c++ zlib* \
-    openssh-clients passwd chkconfig lsof vim iproute
+    openssh-clients passwd chkconfig lsof vim iproute lrzsz
 # 安装openssh-server
 RUN yum -y install openssh-server
 

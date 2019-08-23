@@ -27,6 +27,29 @@ docker run --privileged --name=test1 --restart=always -d \
     -v /d/HashiCorp/root/.jenkins/:/root/.jenkins/ \
     registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
 
+# ..
+sudo docker run --privileged --name=centos --restart=always -d \
+    --network=mynet --ip 10.10.10.10 \
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
+
+
+sudo docker run --privileged --name=centos1 --restart=always -d \
+    --network=mynet --ip 10.10.10.11 \
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
+
+sudo docker run --privileged --name=centos2 --restart=always -d \
+    --network=mynet --ip 10.10.10.12 \
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
+
+sudo docker run --privileged --name=centos3 --restart=always -d \
+    --network=mynet --ip 10.10.10.13 \
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
+
+sudo docker run --privileged --name=centos4 --restart=always -d \
+    --network=mynet --ip 10.10.10.14 \
+    registry.cn-hangzhou.aliyuncs.com/lch_docker_k/linux:centos7
+
+
 docker run --privileged --name=ubuntu --restart=always -d \
     --network=mynet --ip 10.10.10.09 \
     -v /d/HashiCorp:/d/HashiCorp \
